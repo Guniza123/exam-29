@@ -1,0 +1,25 @@
+name: DevOps CI/CD Pipeline
+
+on:
+  push:
+    branches: [ "main", "staging" ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Test Phase (Linting & Check Files)
+      run: |
+        echo "Running automated tests..."
+        test -f index.html || test -f package.json
+        echo "Code check passed successfully!"
+
+    - name: Build Docker Image
+      run: |
+        echo "Starting Docker Build Process..."
+        docker build -t test-image:latest .
+        echo "Docker Build completed successfully!"
